@@ -50,3 +50,28 @@ const cardData = [
     loseOf: [1],
   },
 ];
+
+const getRandomCardId = async () => {
+  return Math.floor(Math.random() * cardData.length);
+};
+
+const createCard = (id) => {
+  const card = document.createElement("img");
+  card.src = cardData[id].image;
+  card.alt = cardData[id].name;
+  return card;
+};
+
+const drawCards = async (cards, fieldSide) => {
+  for (let i = 0; i < cards; i++) {
+    const randomCardId = await getRandomCardId();
+    const drawCard = createCard(randomCardId);
+    states.view.cardBox[fieldSide].appendChild(drawCard);
+  }
+};
+const init = () => {
+  drawCards(5, "player");
+  drawCards(5, "enemy");
+};
+
+init();
