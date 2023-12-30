@@ -59,6 +59,7 @@ const createCard = (id) => {
   const card = document.createElement("img");
   card.src = cardData[id].image;
   card.alt = cardData[id].name;
+  card.className = "card";
   return card;
 };
 
