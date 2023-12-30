@@ -59,8 +59,11 @@ img {
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  text-align: center;
+  line-height: 1.5rem;
+  height: 140px;
 }
 .card__name {
   font-size: 1rem;
