@@ -37,7 +37,7 @@ img {
   min-width: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 .frame {
@@ -52,6 +52,7 @@ img {
 }
 .card__picture {
   width: 250px;
+  height: 330px;
 }
 .card__details {
   width: 100%;
