@@ -50,7 +50,7 @@ img {
   width: 100%;
   text-align: center;
 }
-.card__picture {
+.card__selected {
   width: 250px;
   height: 330px;
 }
@@ -111,7 +111,6 @@ img {
 .card-infield {
   width: 200px;
   height: 280px;
-  border: 1px solid #fff;
 }
 .versus-eye {
   width: 200px;
