@@ -107,6 +107,7 @@ const setCardsOnField = async (playerCard) => {
   const enemyCard = states.view.cardBox.enemy.querySelectorAll(".card")[randomCardId];
   const enemyCardId = enemyCard.dataset.id;
   enemyCard.classList.add("selected");
+  playSound("card-open");
 
   states.view.fieldCard.player.src = cardData[playerCardId].image;
   states.view.fieldCard.enemy.src = cardData[enemyCardId].image;
@@ -130,12 +131,16 @@ const handleCardMouseOver = (e) => {
 };
 
 const createCard = (id) => {
-  const card = document.createElement("img");
-  card.src = cardData[id].image;
-  card.alt = cardData[id].name;
+  const card = document.createElement("div");
   card.className = "card";
   card.setAttribute("data-id", id);
 
+  const cardImage = document.createElement("img");
+  cardImage.className = "card__front";
+  cardImage.src = cardData[id].image;
+  cardImage.alt = cardData[id].name;
+
+  card.appendChild(cardImage);
   return card;
 };
 
@@ -172,8 +177,8 @@ const resetGame = () => {
 
 const init = () => {
   const bgm = states.view.bgm;
-  bgm.play();
   bgm.volume = 0.2;
+  bgm.play();
 
   drawCards(states.values.cards, "player");
   drawCards(states.values.cards, "enemy");

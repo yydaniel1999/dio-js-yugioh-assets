@@ -1,10 +1,8 @@
 body {
   cursor: url("../assets/cursor/yugicursor.png"), default;
 }
-img,
-button,
-img:hover,
-button:hover {
+.card-box--player img,
+button {
   cursor: url("../assets/cursor/yamiyugicursorGLOW.png"), auto;
 }
 main {
@@ -98,13 +96,40 @@ img {
 }
 .card {
   width: 120px;
-  transition: 0.2s;
+  height: 160px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  perspective: 200px;
 }
-
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/icons/card-back.png");
+  background-size: contain;
+  background-position: center;
+  transition: all 0.6s ease;
+  backface-visibility: hidden;
+}
+.card.selected::before {
+  transform: rotateY(-180deg);
+}
+.card .card__front {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  transition: all 0.6s ease;
+  backface-visibility: hidden;
+}
+.card.selected .card__front {
+  transform: rotateY(0deg);
+}
+.card-box--player .card {
+  transition: all 0.2s ease;
+}
 .card-box--player .card:hover {
   transform: translateY(-20px);
-}
-.card-box--enemy {
 }
 .versus__container {
   display: flex;
@@ -128,10 +153,6 @@ img {
 .versus-eye {
   width: 200px;
 }
-.versus__bottom {
-}
 .next-duel {
   visibility: initial;
-}
-.card-box--player {
 }
