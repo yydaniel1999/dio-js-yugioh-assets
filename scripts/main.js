@@ -172,12 +172,11 @@ const resetGame = () => {
 
 const init = () => {
   const bgm = states.view.bgm;
-  bgm.volume = 0.2;
   bgm.play();
+  bgm.volume = 0.2;
 
   drawCards(states.values.cards, "player");
   drawCards(states.values.cards, "enemy");
 };
 
 states.actions.duelButton.addEventListener("pointerdown", resetGame);
-init();

@@ -128,7 +128,7 @@ img {
 .versus__bottom {
 }
 .next-duel {
-  visibility: hidden;
+  visibility: initial;
 }
 .card-box--player {
 }
