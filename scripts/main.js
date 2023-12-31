@@ -99,18 +99,36 @@ const checkResult = (playerCard, enemyCard) => {
   updateScore();
 };
 
+const delay = async (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 const setCardsOnField = async (playerCard) => {
   const playerCardId = playerCard.dataset.id;
-  playerCard.classList.add("selected");
 
   const randomCardId = await getRandomCard(states.values.cards);
   const enemyCard = states.view.cardBox.enemy.querySelectorAll(".card")[randomCardId];
   const enemyCardId = enemyCard.dataset.id;
-  enemyCard.classList.add("selected");
+
+  playerCard.classList.add("selected");
   playSound("card-open");
+  await delay(500);
+
+  playerCard.style.visibility = "hidden";
+  await delay(1000);
 
   states.view.fieldCard.player.src = cardData[playerCardId].image;
+  await delay(500);
+
+  enemyCard.classList.add("selected");
+  playSound("card-open");
+  await delay(500);
+
+  enemyCard.style.visibility = "hidden";
+  await delay(1000);
+
   states.view.fieldCard.enemy.src = cardData[enemyCardId].image;
+  await delay(500);
 
   checkResult(playerCardId, enemyCardId);
 };
