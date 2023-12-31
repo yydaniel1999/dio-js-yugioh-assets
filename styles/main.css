@@ -131,9 +131,9 @@ img {
 .card-box--player .card {
   transition: all 0.2s ease;
 }
-/* .card-box--player .card:hover {
+.card-box--player .card:hover {
   transform: translateY(-20px);
-} */
+}
 .versus__container {
   display: flex;
   flex-direction: column;
