@@ -120,7 +120,9 @@ img {
 }
 .card-infield {
   width: 200px;
-  height: 280px;
+  height: 260px;
+  border: 1px solid #fff;
+  border-radius: 10px;
 }
 .versus-eye {
   width: 200px;
