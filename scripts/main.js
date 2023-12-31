@@ -54,6 +54,12 @@ const cardData = [
   },
 ];
 
+const playSound = (file) => {
+  const sound = new Audio(`./assets/audios/${file}.wav`);
+  sound.volume = 0.2;
+  sound.play();
+};
+
 const getRandomCard = async (length) => {
   return Math.floor(Math.random() * length);
 };
@@ -75,19 +81,20 @@ const showDuelButton = (text) => {
 };
 
 const checkResult = (playerCard, enemyCard) => {
-  let result = "DRAW";
+  let result = "draw";
 
   if (cardData[playerCard].winOf.includes(Number(enemyCard))) {
-    result = "WIN";
+    result = "win";
     states.score.player++;
   }
 
   if (cardData[playerCard].loseOf.includes(Number(enemyCard))) {
-    result = "LOSE";
+    result = "lose";
     states.score.enemy++;
   }
 
-  showDuelButton(result);
+  playSound(result);
+  showDuelButton(result.toUpperCase());
   updateScore();
 };
 
