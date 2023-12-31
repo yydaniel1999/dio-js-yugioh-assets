@@ -19,6 +19,9 @@ const states = {
       enemy: document.querySelector(".card-box--enemy"),
     },
   },
+  values: {
+    cards: 5,
+  },
   actions: {
     duelButton: document.querySelector(".next-duel"),
   },
@@ -51,8 +54,71 @@ const cardData = [
   },
 ];
 
-const getRandomCardId = async () => {
-  return Math.floor(Math.random() * cardData.length);
+const getRandomCard = async (length) => {
+  return Math.floor(Math.random() * length);
+};
+
+const removeAllCardEventListener = () => {
+  states.view.cardBox.player.querySelectorAll(".card").forEach((card) => {
+    card.removeEventListener("pointerdown", handleCardClick);
+    card.removeEventListener("mouseover", handleCardMouseOver);
+  });
+};
+
+const updateScore = () => {
+  states.view.score.innerText = `Win:${states.score.player} Lose:${states.score.enemy}`;
+};
+
+const showDuelButton = (text) => {
+  states.actions.duelButton.innerText = text;
+  states.actions.duelButton.style.visibility = "initial";
+};
+
+const checkResult = (playerCard, enemyCard) => {
+  let result = "DRAW";
+
+  if (cardData[playerCard].winOf.includes(Number(enemyCard))) {
+    result = "WIN";
+    states.score.player++;
+  }
+
+  if (cardData[playerCard].loseOf.includes(Number(enemyCard))) {
+    result = "LOSE";
+    states.score.enemy++;
+  }
+
+  showDuelButton(result);
+  updateScore();
+};
+
+const setCardsOnField = async (playerCard) => {
+  const playerCardId = playerCard.dataset.id;
+  playerCard.classList.add("selected");
+
+  const randomCardId = await getRandomCard(states.values.cards);
+  const enemyCard = states.view.cardBox.enemy.querySelectorAll(".card")[randomCardId];
+  const enemyCardId = enemyCard.dataset.id;
+  enemyCard.classList.add("selected");
+
+  states.view.fieldCard.player.src = cardData[playerCardId].image;
+  states.view.fieldCard.enemy.src = cardData[enemyCardId].image;
+
+  checkResult(playerCardId, enemyCardId);
+};
+
+const handleCardClick = async (e) => {
+  removeAllCardEventListener();
+  setCardsOnField(e.currentTarget);
+};
+
+const handleCardMouseOver = (e) => {
+  const cardId = e.currentTarget.dataset.id;
+  const cardSelected = cardData[cardId];
+  const cardElement = states.view.cardSelected;
+
+  cardElement.picture.src = cardSelected.image;
+  cardElement.name.innerText = cardSelected.name;
+  cardElement.type.innerText = cardSelected.type;
 };
 
 const createCard = (id) => {
@@ -60,19 +126,46 @@ const createCard = (id) => {
   card.src = cardData[id].image;
   card.alt = cardData[id].name;
   card.className = "card";
+  card.setAttribute("data-id", id);
+
   return card;
 };
 
 const drawCards = async (cards, fieldSide) => {
   for (let i = 0; i < cards; i++) {
-    const randomCardId = await getRandomCardId();
+    const randomCardId = await getRandomCard(cardData.length);
     const drawCard = createCard(randomCardId);
+
+    if (fieldSide === "player") {
+      drawCard.addEventListener("pointerdown", handleCardClick);
+      drawCard.addEventListener("mouseover", handleCardMouseOver);
+    }
+
     states.view.cardBox[fieldSide].appendChild(drawCard);
   }
 };
-const init = () => {
-  drawCards(5, "player");
-  drawCards(5, "enemy");
+
+const resetGame = () => {
+  document.querySelectorAll(".card").forEach((card) => card.remove());
+
+  const cardElement = states.view.cardSelected;
+  cardElement.picture.src = "";
+  cardElement.name.innerText = "Selecione uma carta";
+  cardElement.type.innerText = "";
+
+  const fieldCards = states.view.fieldCard;
+  fieldCards.player.src = "";
+  fieldCards.enemy.src = "";
+
+  states.actions.duelButton.style.visibility = "hidden";
+
+  init();
 };
 
+const init = () => {
+  drawCards(states.values.cards, "player");
+  drawCards(states.values.cards, "enemy");
+};
+
+states.actions.duelButton.addEventListener("pointerdown", resetGame);
 init();
