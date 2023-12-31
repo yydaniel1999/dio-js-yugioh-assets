@@ -18,6 +18,7 @@ const states = {
       player: document.querySelector(".card-box--player"),
       enemy: document.querySelector(".card-box--enemy"),
     },
+    bgm: document.querySelector(".bgm"),
   },
   values: {
     cards: 5,
@@ -170,6 +171,10 @@ const resetGame = () => {
 };
 
 const init = () => {
+  const bgm = states.view.bgm;
+  bgm.volume = 0.2;
+  bgm.play();
+
   drawCards(states.values.cards, "player");
   drawCards(states.values.cards, "enemy");
 };
